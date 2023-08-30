@@ -1,10 +1,26 @@
-对于相交链表，让两个链表从距离末尾同等距离的位置开始遍历。这个位置只能是较短链表的头结点位置。 为此，我们必须消除两个链表的长度差
+对于相交链表，让两个链表从距离末尾同等距离的位置开始遍历。这个位置只能是较短链表的头节点位置。 为此，我们必须消除两个链表的长度差
+设链表A总长度为m，链表B总长度为n，相交节点数量为C
 为了消除长度差，可以进行如下操作
 指针 temp1 指向 A 链表，指针 temp2 指向 B 链表，依次往后遍历
 如果 temp1 到了末尾，则 temp1 = headB 继续遍历
 如果 temp2 到了末尾，则 temp2 = headA 继续遍历
-如果两个链表相交，
+当两个节点重合(m + (n-c)) == (n + (m-c))，有两种情况
+1.两个节点为null，表明两个链表不相交[c == 0]
+2.两个节点同时指向第一个公共节点[c > 0]
 
-```
+时间复杂度 O(m+n):最差情况下,遍历m+n个节点
+空间复杂度 O(1):节点指针 A , B 使用常数大小的额外空间。
 
-```
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
+        ListNode temp1 = headA;
+        ListNode temp2 = headB;
+        while(temp1 != temp2) {
+            temp1 = temp1 == null ? headB : temp1.next;
+            temp2 = temp2 == null ? headA : temp2.next;
+        }
+        return temp1;
+    }
+}
