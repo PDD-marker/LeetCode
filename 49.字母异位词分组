@@ -1,0 +1,39 @@
+字母异位词是指 假如两个单词 每个字母数量都相同，则两个字母为字母异位词
+Java 8 API添加了一个新的抽象称为流Stream，以一种声明的方式处理数据。
+Collectors.groupingBy根据一个或多个属性对集合中的项目进行分组
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        //Collectors.groupingBy根据一个或多个属性对集合中的项目进行分组
+        return new ArrayList<>(Arrays.stream(strs).collect(
+            Collectors.groupingBy(str -> {
+                char[] array = str.toCharArray();
+                Arrays.sort(array);
+                return new String(array);
+            })
+        ).values());
+
+    }
+}
+
+当然，也可以通过哈希表，让每个单词的字母重新排序，作为Map的key
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String,List<String>> map = new HashMap();
+        for(String temp : strs) {
+            char[] ch = temp.toCharArray();
+            Arrays.sort(ch);
+            String s = new String(ch);
+            if(map.containsKey(s)) {
+                List<String> list = map.get(s);
+                list.add(temp);
+                map.put(s,list);
+            } else {
+                List<String> list = new ArrayList();
+                list.add(temp);
+                map.put(s,list);
+            }
+        }
+        List<List<String>> list = new ArrayList(map.values());
+        return list;
+    }
+}
